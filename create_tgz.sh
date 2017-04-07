@@ -14,15 +14,22 @@ svnadmin create ${THEREPO}
 
 # create an initial working dir to be imported in therepo
 mkdir ${INITIAL}
-echo "I am just a boring file" > ${INITIAL}/afile
-echo "I am another boring file" > ${INITIAL}/anotherfile 
+mkdir ${INITIAL}/trunk
+mkdir ${INITIAL}/branches
+mkdir ${INITIAL}/tags
+
+echo "I am just a boring file" > ${INITIAL}/trunk/afile
+echo "I am another boring file" > ${INITIAL}/trunk/anotherfile 
 
 svn import -m "initial" ${INITIAL} file:///${PWD}/${THEREPO}
 
 rm -rf ${INITIAL}
 
-# checkout
-svn co file:///${PWD}/${THEREPO} ${THECHECKOUT}
+# create a branch
+svn copy file:///${PWD}/${THEREPO}/trunk file:///${PWD}/${THEREPO}/branches/abranch -m "branch created"
+
+# checkout trunk
+svn co file:///${PWD}/${THEREPO}/trunk ${THECHECKOUT}
 
 # modified file
 echo "I am a hot file that wants to be modded" > ${THECHECKOUT}/hotfile 
